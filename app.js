@@ -1,8 +1,17 @@
 var express = require('express');
 var path = require('path');
+var mongoose = require('mongoose');
+
+//Connect to db
+mongoose.connect('mongodb://localhost/nodejs-cms');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log('Connected to database');
+});
 
 //init app
-
 var app = express();
 
 // view engine setup
