@@ -87,3 +87,20 @@ app.listen(port, function() {
 });
 ```
 - 追記後`nodemon app.js`で接続できているかチェックする
+
+
+### failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017エラーが出たら
+- MongoDBがインストールされていない場合は接続できない
+
+```
+1 `brew search mongo`
+2 `brew install mongodb`
+3 'ln -s /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents/'
+4 'launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist'
+5 'mongod'
+6 'mongo -version'
+
+入力したのち、`nodemon app.js`を入力して[Connected to database']と入力されていればOK
+
+それ以外の際はエラー文をググる
+```
