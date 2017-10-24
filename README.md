@@ -109,12 +109,12 @@ app.listen(port, function() {
 - `views/_layout` フォルダを作成その中に
 - `adminheader,adminfooter,header,footer`を作成
 
-1 フォルダ作成
-2 bootstrapをコピーしてテンプレを作成
-3 templateを作成
-4 views直下にindex.ejsを作成
-5 app.jsを修正
-6 記述後`nodemon app.js`をターミナルに入力して起動確認
+1. フォルダ作成
+2. bootstrapをコピーしてテンプレを作成
+3. templateを作成
+4. views直下にindex.ejsを作成
+5. app.jsを修正
+6. 記述後`nodemon app.js`をターミナルに入力して起動確認
 
 ```html
 <!DOCTYPE html>
@@ -180,7 +180,7 @@ app.listen(port, function() {
 
 ```
 - 各テンプレートに切り分けて貼り付ける
-- 4. index.ejsを作成して下記のようにする
+- 4index.ejsを作成して下記のようにする
 
 ```ejs
 <%= include _layouts/header  %>
@@ -190,9 +190,9 @@ app.listen(port, function() {
 <%= include _layouts/footer  %>
 
 ```
-- 5. app.jsコード
+- 5app.jsコード
 
-```javascript  
+```javascript  
 var express = require('express');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -228,5 +228,4 @@ var port = 3000;
 app.listen(port, function() {
   console.log('Server stated on port' + port);
 });
-
-```
+```
