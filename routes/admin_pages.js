@@ -7,7 +7,5 @@ router.get('/', function(req,res){
     res.send('admin area');
 });
 
-
-
 //Exports
 module.exports = router;

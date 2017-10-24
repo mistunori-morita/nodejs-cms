@@ -245,7 +245,7 @@ app.get('/', function(req,res){
 ```
 
 
-### step4 routes野中にpages.jsを作成
+### step4 routesの中にpages.jsを作成
 ```javascript
 var express = require('express');
 var router = express.Router();
@@ -398,5 +398,38 @@ router.get('/', function(req,res){
 
 //Exports
 module.exports = router;
+
+```
+
+
+#### さらにその中でrotingを作る際は下記のように
+- pages.js
+```javascript
+router.get('/', function(req,res){
+    res.render('index',{
+      title: 'HOME'
+    });
+});
+
+
+//URLはpages/test
+//つまりapagesの先でさらに/testを作っているという意味
+router.get('/test', function(req,res){
+    res.send('pages test');
+});
+
+```
+
+- admin_pages.js
+```javascript
+router.get('/', function(req,res){
+    res.send('admin area');
+});
+
+//URLはadmin/pages/test
+//つまりadmin/pagesの先でさらに/testを作っているという意味
+router.get('/test', function(req,res){
+    res.send('admin test');
+});
 
 ```
