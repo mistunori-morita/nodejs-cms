@@ -174,6 +174,7 @@ app.listen(port, function() {
 ```ejs
 <% include _layouts/header %>
 
+//この中にかいたものが、<div class="container">xx</div>に入ってくる
 <h1>Hello ther</h1>
 
 <% include _layouts/footer %>
@@ -224,4 +225,21 @@ var port = 3000;
 app.listen(port, function() {
   console.log('Server stated on port' + port);
 });
+```
+
+
+#### app.js追記
+```javascript
+
+app.get('/', function(req,res){
+    res.render('index',{
+      title: 'HOME' //このように記述して￥
+    });
+});
+
+・header.ejs 追記
+<title><%= title %></title>
+
+このように記述すると「HOME」が表示されるようになる
+
 ```
