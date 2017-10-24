@@ -228,12 +228,12 @@ app.listen(port, function() {
 ```
 
 
-#### app.js追記
+#### app.js追記 これを追記することでタイトル部分の表示が変わる
 ```javascript
 
 app.get('/', function(req,res){
     res.render('index',{
-      title: 'HOME' //このように記述して￥
+      title: 'HOME' //このように記述して
     });
 });
 
@@ -241,5 +241,162 @@ app.get('/', function(req,res){
 <title><%= title %></title>
 
 このように記述すると「HOME」が表示されるようになる
+
+```
+
+
+### step4 routes野中にpages.jsを作成
+```javascript
+var express = require('express');
+var router = express.Router();
+
+
+router.get('/', function(req,res){
+    res.render('index',{
+      title: 'HOME'
+    });
+});
+
+
+
+//Exports
+module.exports = router;
+
+
+
+```
+
+
+```javascript
+app.jsの修正
+
+var express = require('express');
+var path = require('path');
+var mongoose = require('mongoose');
+
+//Connect to db
+mongoose.connect('mongodb://localhost/nodejs-cms');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log('Connected to database');
+});
+
+//init app
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+//Set public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+//Set routees
+var pages = require('./routes/pages.js');
+
+app.use('/', pages);
+
+//State the server
+var port = 3000;
+app.listen(port, function() {
+  console.log('Server stated on port' + port);
+});
+
+
+個人的に`require`とめちゃくちゃ打ち間違えるので注意！！
+```
+
+#### routesにadminPagersを追加
+```javascript
+var express = require('express');
+var path = require('path');
+var mongoose = require('mongoose');
+
+//Connect to db
+mongoose.connect('mongodb://localhost/nodejs-cms');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log('Connected to database');
+});
+
+//init app
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+//Set public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+//Set routees
+var pages = require('./routes/pages.js');
+var adminPages = require('./routes/admin_pages.js');
+
+//ここでURLを振り分けている
+app.use('/admin/pages', adminPages);
+app.use('/', pages);
+
+//State the server
+var port = 3000;
+app.listen(port, function() {
+  console.log('Server stated on port' + port);
+});
+
+
+```
+- Set routesに記載したら`routes/admin_pages.js`を作成すればテンプレートとルーティングが作成できる
+- `app.use('/', xxxx)`ここでURLを振り分けている
+
+#### app.js
+```javascript
+//Set routees
+var pages = require('./routes/pages.js');
+var adminPages = require('./routes/admin_pages.js');
+
+app.use('/admin/pages', adminPages); //admin_pagesを見る指定
+app.use('/', pages); //pagesを見る指定
+
+このようにしてルーティングを切り分けている
+```
+
+#### pages.js
+```javascript
+var express = require('express');
+var router = express.Router();
+
+//つまりここはトップページ
+router.get('/', function(req,res){
+    res.render('index',{
+      title: 'HOME'
+    });
+});
+
+
+//Exports
+module.exports = router;
+```
+
+#### admin_pages
+```javascript
+var express = require('express');
+var router = express.Router();
+
+
+router.get('/', function(req,res){
+    res.send('admin area');
+});
+
+
+//Exports
+module.exports = router;
 
 ```
