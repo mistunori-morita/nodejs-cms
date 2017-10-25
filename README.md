@@ -413,7 +413,7 @@ router.get('/', function(req,res){
 
 
 //URLはpages/test
-//つまりapagesの先でさらに/testを作っているという意味
+//つまりpagesの先でさらに/testを作っているという意味
 router.get('/test', function(req,res){
     res.send('pages test');
 });
@@ -432,4 +432,102 @@ router.get('/test', function(req,res){
     res.send('admin test');
 });
 
+```
+
+
+### `npm install --save body-parser`をインストール
+- ターミナルでコマンドを実行
+- https://www.npmjs.com/package/body-parser ドキュメントをみて処理を記述
+
+```javascript
+
+1. app.jsにインポート
+var bodyParser = require('body-parser');
+
+2.`app.use(express.static(path.join(__dirname, 'public')));`の下ぐらいに記述
+
+//Body Parser middleware
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
+
+```
+
+### `npm install --save express-session`をインストール
+- ターミナルでコマンドを実行
+- https://github.com/expressjs/session ドキュメントをみて処理を記述
+
+```javascript
+1 app.jsにインポート
+var session = require('express-session')
+
+2. 先ほどの`bodyparser`の後ぐらいに記述
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+
+```
+
+### `npm install --save express-validator`をインストール
+- ターミナルでコマンドを実行
+- https://github.com/ctavan/express-validator ドキュメントをみて処理を記述
+
+```javascript
+1 app.jsにインポート
+var expressValidator = require('expressValidator');
+
+2. 先ほどの`sesion`の後ぐらいに記述※今回のはv3.2.1（エラー出るかも）
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
+
+```
+
+### `npm install express-messages`をインストール
+- ターミナルでコマンドを実行
+- `npm install connect-flash`もインストール
+- https://github.com/expressjs/express-messages ドキュメントをみて処理を記述
+
+```javascript
+
+1. 先ほどの`validator`の後ぐらいに記述
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+2. `views/message.ejs`を作成
+
+//これを貼り付ける
+
+<% Object.keys(messages).forEach(function (type) { %>
+  <div class="alert alert-<%= type %>">
+  <% messages[type].forEach(function (message) { %>
+    <%= message %>
+  <% }) %>
+</div>
+<% }) %>
+
+3. adminheader,headerのcontainerの下に貼り付ける
+<%- messages('messages', locals) %>
 ```
