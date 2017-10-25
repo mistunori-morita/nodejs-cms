@@ -480,7 +480,7 @@ app.use(session({
 
 ```javascript
 1 app.jsにインポート
-var expressValidator = require('expressValidator');
+var expressValidator = require('express-validator');
 
 2. 先ほどの`sesion`の後ぐらいに記述※今回のはv3.2.1（エラー出るかも）
 app.use(expressValidator({
@@ -537,10 +537,10 @@ app.use(function (req, res, next) {
 ```javascript
 //page.jsに記述
 
-var mongoose = require('mongoose');
+vvar mongose = require('mongose');
 
 // Page Schema
-var PageSchema = mongose.Shcema({
+var PageSchema = mongose.Schema({
 
   title: {
     type: String,
@@ -559,6 +559,48 @@ var PageSchema = mongose.Shcema({
 });
 
 var Page = module.exports = mongose.model('Page', PageSchema);
+
+```
+
+## admin_pages編集
+### routes/admin_pages.jsを編集
+```javascript
+var express = require('express');
+var router = express.Router();
+
+// Get pages index
+
+router.get('/', function(req,res){
+    res.send('admin area');
+});
+
+// Get add page
+
+router.get('/add-page', function(req,res){
+    var title = "";
+    var slug = "";
+    var content = "";
+
+    res.render('admin/add-page',{
+      title: title,
+      slug: slug,
+      content: content
+    });
+
+});
+
+//Exports
+module.exports = router;
+
+
+```
+### views/adminを作成してadd_page.ejsを作成
+```javascript
+書き換える
+<%- include('../_layouts/adminheader') %>
+
+
+<%- include('../_layouts/adminfooter') %>
 
 
 ```
