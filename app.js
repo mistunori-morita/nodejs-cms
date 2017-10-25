@@ -3,7 +3,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var expressValidator = require('express-validator');
+var expressValidator = require('expressValidator');
 
 
 //Connect to db

@@ -1,7 +1,7 @@
-var mongose = require('mongose');
+var mongoose = require('mongoose');
 
 // Page Schema
-var PageSchema = mongose.Schema({
+var PageSchema = mongose.Shcema({
 
   title: {
     type: String,
