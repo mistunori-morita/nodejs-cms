@@ -27,6 +27,9 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+//SEt global errors variable
+app.locals.errors = null;
+
 //Body Parser middleware
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -60,6 +63,9 @@ app.use(expressValidator({
   }
 }));
 
+
+
+
 //Express messages middleware
 app.use(require('connect-flash')());
 app.use(function (req, res, next) {
@@ -70,6 +76,10 @@ app.use(function (req, res, next) {
 //Set routees
 var pages = require('./routes/pages.js');
 var adminPages = require('./routes/admin_pages.js');
+
+
+
+
 
 app.use('/admin/pages', adminPages);
 app.use('/', pages);
