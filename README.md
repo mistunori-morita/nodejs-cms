@@ -695,4 +695,57 @@ http://localhost:3000/admin/pages/add-pageでアクセスできるようにな�
 
 ```
 
-### テスト
+### post add page1 追加
+- admin_pagesに追記()
+- postページの作成1
+
+```javascript
+
+ベースはget add pageを編集する
+// Post add page
+router.post('/add-page', function(req,res){
+
+    req.checkBody('title', 'Title must have a value.').notEmpty();
+    req.checkBody('content', 'Content must have a value.').notEmpty();
+
+
+    var title = req.body.title;
+    var slug = req.body.slug.replace(/\s+/g, '-').toLowerCase();
+    if(slug == '') slug = title.replace(/\s+/g, '-').toLowerCase();
+    var content = req.body.content;
+
+    var errors = req.validationErrors();
+
+    if(errors) {
+      res.render('admin/add_page',{
+        errors: errors,
+        title: title,
+        slug: slug,
+        content: content
+      });
+    }else{
+      console.log('success');
+    }
+});
+
+
+//adminhederに追記
+<div class="container">
+<%- messages('messages', locals) %>
+//ここより下に追加
+<% if (errors) {%>
+  <% errors.forEach(function(error) { %>
+    <div class="alert alert-danger">
+      <%= error.msg %>
+    </div>
+  <% });%>
+<% }%>
+
+//app.jsを追加することでバリデートを表示できる
+
+//SEt global errors variable
+app.locals.errors = null;
+
+■これを追加してリロードすることでエラーメッセージがヘッダーの下あたりに表示させる
+
+```
