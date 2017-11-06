@@ -794,4 +794,13 @@ var Page = require('../models/page');
       });
     }
 });
+※打ち間違え注意
 ```
+
+## mongogターミナル使い方
+- mongo ターミナルで起動
+- show dbs データベース一覧を表示
+- use xxx　データベース切り替え
+- show collections　データベース内のコレクションを一覧表示
+- db.xxx.find()　コレクション内のドキュメントを一覧表示
+- `https://qiita.com/yanoojapan/items/91d4090b263cef7af4e8`に詳しく参照あり
